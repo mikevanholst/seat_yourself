@@ -52,4 +52,5 @@ group :development, :test do
   gem "autotest-standalone"
   gem 'debugger'
   gem 'factory_girl_rails', '~> 4.2'#, :require => false {add this snippet if in rails 3}
+  
 end
