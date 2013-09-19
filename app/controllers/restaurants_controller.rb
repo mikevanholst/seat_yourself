@@ -2,7 +2,7 @@ class RestaurantsController < ApplicationController
 
   def new
     if Rails.env.development?
-      @restaurant = FactoryGirl.create(:restaurant_with_full_description)
+      @restaurant = FactoryGirl.build(:restaurant_with_full_description)
     else
       @restaurant = Restaurant.new
      end
