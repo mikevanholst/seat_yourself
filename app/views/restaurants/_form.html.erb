@@ -1,14 +1,6 @@
-<h1>Restaurant#new</h1>
-<p>Find me in app/views/restaurant/new.html.erb</p>
-
-
-
+<div id="restaurant_form"
   <%= form_for @restaurant do |f| %>
 
-    <div class="field">
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-    </div><br>
    
     <div class="field">
       <%= f.label :name %>
@@ -47,10 +39,13 @@
    
     <div class="field">
       <%= f.label :seats %>
-      <%= f.integer :seats %>
+      <%= f.number_field :seats %>
     </div><br>
 
-
+    <div class="actions">
+      <%= f.submit %>
+    </div><br>
+  </div>
 
 
 

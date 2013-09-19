@@ -1,6 +1,4 @@
-class RestaurantController < ApplicationController
-  
-
+class RestaurantsController < ApplicationController
 
 
   def new
@@ -32,6 +30,7 @@ class RestaurantController < ApplicationController
   def restaurant_params
     params.require(:restaurant).permit(:name, :description, :phone, :price_range, :address, :seats, :category, :neighbourhood)  
   end
+
 
 
 end

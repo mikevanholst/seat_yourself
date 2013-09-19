@@ -1,8 +1,7 @@
 require 'spec_helper'
 
-describe RestaurantController do
-
-  let!(:restaurant) {FactoryGirl.create(:restaurant)}
+describe RestaurantsController do
+let!(:restaurant) {FactoryGirl.create(:restaurant)}
 
   describe "GET 'new'" do
     it "returns http success" do
@@ -31,5 +30,4 @@ describe RestaurantController do
       response.should be_success
     end
   end
-
 end
