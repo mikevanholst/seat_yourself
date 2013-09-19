@@ -5,3 +5,5 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Restaurant.create(name: "Smitty's", category: "Family", address: "1 First St.", phone: "555-555-5555", description: "Classic pancake house", seats: 100, neighbourhood: "Syruptown", price_range: "under $10")
