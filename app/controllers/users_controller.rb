@@ -1,7 +1,11 @@
 class UsersController < ApplicationController
   def new
+    if Rails.env.development?
+      @user = FactoryGirl.build(:user)
+    else
     @user = User.new
   end
+end
 
   def create
     @user = User.new(user_params)
