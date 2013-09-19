@@ -1,6 +1,31 @@
-<div id="restaurant_form"
+<!-- <div class = "FG_fill">
+Fill form using factory girl
+<%#= form_tag  %>
+
+
+@restaurant = Restaurant.new()
+<div class="actions">
+      <%#= f.submit %>
+    </div><br></div>
+ -->
+<%=  %>
+
+
+<%=  %>
+<div id="restaurant_form">
   <%= form_for @restaurant do |f| %>
 
+
+    <% if @restaurant.errors.any? %>
+    <div id = "error_explanation">
+      <h2><%= pluralize(@restaurant.errors.count, "error") %> prohibited this restaurant from being saved:</h2> 
+      <ul>
+        <%  @restaurant.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
    
     <div class="field">
       <%= f.label :name %>
@@ -39,14 +64,13 @@
    
     <div class="field">
       <%= f.label :seats %>
-      <%= f.number_field :seats value=100 %>
+      <%= f.number_field :seats %>
     </div><br>
 
+    
     <div class="actions">
       <%= f.submit %>
     </div><br>
-  
-
 
 
   </div>
