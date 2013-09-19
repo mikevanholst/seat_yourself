@@ -2,3 +2,61 @@
 <p>Find me in app/views/restaurant/new.html.erb</p>
 
 
+
+  <%= form_for @restaurant do |f| %>
+
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div><br>
+   
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div><br>
+   
+    <div class="field">
+      <%= f.label :address %>
+      <%= f.text_area :address %>
+    </div><br>
+   
+    <div class="field">
+      <%= f.label :neighbourhood %>
+      <%= f.text_field :neighbourhood %>
+    </div><br>
+   
+    <div class="field">
+      <%= f.label :category %>
+      <%= f.text_field :category %>
+    </div><br>
+   
+    <div class="field">
+      <%= f.label :phone %>
+      <%= f.text_field :phone %>
+    </div><br>
+   
+    <div class="field">
+      <%= f.label :price_range %>
+      <%= f.text_field :price_range %>
+    </div><br>
+   
+    <div class="field">
+      <%= f.label :description %>
+      <%= f.text_area :description %>
+    </div><br>
+   
+    <div class="field">
+      <%= f.label :seats %>
+      <%= f.integer :seats %>
+    </div><br>
+
+
+
+
+
+
+
+
+
+
+   <% end %> 
