@@ -4,8 +4,8 @@ class UsersController < ApplicationController
       @user = FactoryGirl.build(:user)
     else
     @user = User.new
+    end
   end
-end
 
   def create
     @user = User.new(user_params)
@@ -16,8 +16,10 @@ end
     end
   end
 
+  private
+
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :name)
+    params.require(:user).permit(:email, :password, :password_confirmation, :name, :phone, :owner)
   end
 
 end
