@@ -7,11 +7,18 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new
   end
 
+
+
   def create
     @user = User.find(1) 
     @reservation = @restaurant.reservations.build(reservation_params)
     @reservation.user_id = @user.id  #whith sorcery add current_user.id
     # @reservation = Reservation.new(reservation_params)
+
+    @bookings = @restaurant.reservations.where(:day => @reservation.day) 
+
+    @reserved = @bookings.select {|b| (b.meal_time - @reservation.meal_time).abs <= 1.hour}
+
     if @reservation.save
       redirect_to restaurant_path(@restaurant), notice: "You have made a reservation at #{@restaurant.name}"
     else
@@ -37,7 +44,7 @@ class ReservationsController < ApplicationController
 
 
   def reservation_params
-    params.require(:reservation).permit(:party_size, :time_slot, :date)
+    params.require(:reservation).permit(:party_size, :time_slot, :date, :day, :meal_time)
   end
 
 end
