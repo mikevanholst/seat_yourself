@@ -2,7 +2,9 @@
 
 FactoryGirl.define do
   factory :reservation do
-    party_size 1
-    time_slot "2013-09-19 16:21:23"
+    party_size { 2 + rand(18) }
+    time_slot 7
+  
+    :restaurant
   end
 end

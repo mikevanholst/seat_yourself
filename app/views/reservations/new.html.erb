@@ -1,0 +1,36 @@
+<h1>Reservation Maker</h1>
+<p>Find me in app/views/reservations/new.html.erb</p>
+
+<%= form_for @reservation do |f| %>
+  <% if @reservation.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% for message in @reservation.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :party_size, "How many in your party? " %>
+    <%= f.number_field :party_size %>
+  </div>
+  <div class="field" >
+    <%= f.label :time_slot %><br/>
+    <%= f.text_field :email %>
+  </div>
+  <div class="field" >
+  <%= f.label :time_slot %><br/>
+  <%= select(:restaurant, :time_slot, [
+    ['11am', 11], 
+    ['12pm', 12], 
+    ['1pm', 13],
+    ['2pm', 14],
+    ]) %>
+  </div> 
+
+
+  <div class="actions"><%= f.submit %></div>
+<% end %>
+
