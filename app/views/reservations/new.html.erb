@@ -17,20 +17,21 @@
   <div class='field'>
     <%= f.label :party_size, "How many in your party? " %>
     <%= f.number_field :party_size %>
+    <br/>
   </div>
   <div class='field' >
-    <%= f.label :time_slot %><br/>
-    <%#= f.text_field :email %>
+    <%= f.label :date, "Date:" %>
+    <%= f.datetime_field(:date) %>
+    <br/>
   </div>
   <div class='field' >
-  <%= f.label :time_slot %><br/>
-  <%= select(:restaurant, :time_slot, [
-    ['11am', 11], 
-    ['12pm', 12], 
-    ['1pm', 13],
-    ['2pm', 14],
-    ]) %>
-  </div> 
+    <%= f.label :time_slot, "Time:" %>
+    <%= f.time_field(:time_slot) %>
+    <br>
+  </div>
+ 
+    
+  
   <div class="actions"><%= f.submit %></div>
 <% end %>
 
