@@ -2,25 +2,24 @@
 
 
 
-<%= form_for [@restaurant,@reservation] do |f| %>
+<%= form_for @restaurant,@reservation do |f| %>
   <% if @reservation.errors.any? %>
     <div class="error_messages">
       <h2>Form is invalid</h2>
       <ul>
         <% for message in @reservation.errors.full_messages %>
           <li><%= message %></li>
-        <% end %>
+  <% end %>
       </ul>
     </div>
-  <% end %>
-
+  
   <div class='field'>
     <%= f.label :party_size, "How many in your party? " %>
     <%= f.number_field :party_size %>
   </div>
   <div class='field' >
     <%= f.label :time_slot %><br/>
-    <%#= f.text_field :email %>
+    <%= f.text_field :email %>
   </div>
   <div class='field' >
   <%= f.label :time_slot %><br/>

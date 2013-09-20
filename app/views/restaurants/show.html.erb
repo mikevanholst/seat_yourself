@@ -12,4 +12,7 @@ Price Range: <%= @restaurant.price_range %>
 <%= @restaurant.description %>
 </div>
 
-<%= link_to restaurant_reservations_path %>
+<%#= render 'reservations/form' %>
+
+
+<%= link_to "Make a reservation", new_restaurant_reservation_path(restaurant_id: @restaurant.id) %>
