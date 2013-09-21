@@ -14,13 +14,21 @@ class ReservationsController < ApplicationController
     @reservation = @restaurant.reservations.build(reservation_params)
     @reservation.user_id = @user.id  #whith sorcery add current_user.id
     # @reservation = Reservation.new(reservation_params)
+    puts @restaurant.reservations.inspect
 
     @bookings = @restaurant.reservations.where(:day => @reservation.day) 
-
-    @reserved = @bookings.select {|b| (b.meal_time - @reservation.meal_time).abs <= 1.hour}
-
-    if @reservation.save
-      redirect_to restaurant_path(@restaurant), notice: "You have made a reservation at #{@restaurant.name}"
+    puts @bookings.inspect
+    reserved = @bookings.select {|b| (b.meal_time - @reservation.meal_time).abs <= 1.hour}
+  
+    conflicts = reserved.inject { |memo, r| memo = memo + r.party_size}
+    if @restaurant.seats - conflicts > @restaurant.party_size
+      if @reservation.save
+        redirect_to restaurant_path(@restaurant), 
+        notice: "You have made a reservation at #{@restaurant.name} 
+        for #{@restaurant.party_size} on #{@restaurant.date} at #{@restaurant.time}"
+      else
+        render new, notice: "Sorry, your party cannot be seated at that time."
+      end
     else
       render new
     end      
