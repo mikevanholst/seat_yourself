@@ -4,7 +4,11 @@ class ReservationsController < ApplicationController
  before_action :remember_restaurant 
 
   def new
+    if Rails.env.development?
+      @reservation = FactoryGirl.build(:reservation)
+    else
     @reservation = Reservation.new
+    end
   end
 
 
@@ -14,21 +18,28 @@ class ReservationsController < ApplicationController
     @reservation = @restaurant.reservations.build(reservation_params)
     @reservation.user_id = @user.id  #whith sorcery add current_user.id
     # @reservation = Reservation.new(reservation_params)
-    puts @restaurant.reservations.inspect
 
-    @bookings = @restaurant.reservations.where(:day => @reservation.day) 
-    puts @bookings.inspect
-    reserved = @bookings.select {|b| (b.meal_time - @reservation.meal_time).abs <= 1.hour}
+
+    # Reservation.find(15).meal_time.hour
+
+    # Reservation.where(:restaurant_id => 1).sum(:party_size)
+    #Reservation.where(:restaurant_id => 1).where(day: "2013-09-19").sum(:party_size)
+
+    # @bookings = @restaurant.reservations.where(:day => @reservation.day) 
+    # puts @bookings.inspect
+    # reserved = @bookings.select {|b| (b.meal_time - @reservation.meal_time).abs <= 1.hour}
   
-    conflicts = reserved.inject { |memo, r| memo = memo + r.party_size}
-    if @restaurant.seats - conflicts > @restaurant.party_size
-      if @reservation.save
+    # conflicts = reserved.inject { |memo, r| memo = memo + r.party_size}
+    # if @restaurant.seats - conflicts > @restaurant.party_size
+    if @reservation.save
+      date_display = @reservation.day.strftime("%A, %b %d")
+      time_display = @reservation.meal_time.strftime("%I:%M %p")
         redirect_to restaurant_path(@restaurant), 
-        notice: "You have made a reservation at #{@restaurant.name} 
-        for #{@restaurant.party_size} on #{@restaurant.date} at #{@restaurant.time}"
-      else
-        render new, notice: "Sorry, your party cannot be seated at that time."
-      end
+        notice: "You have made a reservation at #{@restaurant.name}
+       for #{@reservation.party_size} people, on #{date_display} at #{time_display}"
+      # else
+      #   render new, notice: "Sorry, your party cannot be seated at that time."
+      # end
     else
       render new
     end      

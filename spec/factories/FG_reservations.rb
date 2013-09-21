@@ -3,8 +3,8 @@
 FactoryGirl.define do
   factory :reservation do
     party_size { 2 + rand(18) }
-    time_slot 7
-  
+    day {Time.now + rand(2).day }
+    meal_time {Time.now.change(:hour => (11 + rand(9))) }
     :restaurant
   end
 end
