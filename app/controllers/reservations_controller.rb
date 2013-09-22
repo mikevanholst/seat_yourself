@@ -58,31 +58,91 @@ class ReservationsController < ApplicationController
 
   def restaurant_full
 
-        seats = @restaurant.seats
-        return true if seats < 
-        reserved_seats = 0 
-        reservation_hour = @reservation.meal_time.hour
-        reservation_minutes = @reservation.meal_time.min 
-        bookings = @restaurant.reservations.where(:day => @reservation.day)
-        return false if bookings.empty?
-        # total_seats_reserved = bookings.inject { |sum, b| sum + b.party_size }
-        
-        # return false if ((seats - @reservation.party_size) > total_seats_reserved)
-        bookings.each do |b| 
-          match = false
-          booking_hour = b.meal_time.hour
-          booking_minutes = b.meal_time.min
-          match = true if  booking_hour == reservation_hour
-          match = true if (booking_hour == (reservation_hour + 1) && booking_minutes < reservation_minutes )    
-          match = true if (booking_hour == (reservation_hour - 1) && booking_minutes > reservation_minutes )    
-          reserved_seats = reserved_seats + b.party_size if match == true
-        end
-        vacant_seats = seats - reserved_seats
-        if vacant_seats > @reservation.party_size
-          return false
-        else
-          return true 
-        end   
+    seats = @restaurant.seats
+    return true if seats < @reservation.party_size
+    reserved_seats = 0 
+    reservation_hour = @reservation.meal_time.hour
+    reservation_minutes = @reservation.meal_time.min 
+    bookings = @restaurant.reservations.where(:day => @reservation.day)
+    return false if bookings.empty?
+
+    bookings.each do |b| 
+      conflict = false
+      booking_hour = b.meal_time.hour
+      booking_minutes = b.meal_time.min
+      conflict = true if  booking_hour == reservation_hour
+      conflict = true if (booking_hour == (reservation_hour + 1) && booking_minutes < reservation_minutes )    
+      conflict = true if (booking_hour == (reservation_hour - 1) && booking_minutes > reservation_minutes )    
+      reserved_seats = reserved_seats + b.party_size if conflict == true
+    end
+    vacant_seats = seats - reserved_seats
+    if vacant_seats > @reservation.party_size
+      return false
+    else
+      return true 
+    end   
   end 
+
+
+def make_suggestions
+  find_next_quater_hour(@reservation.meal_time)
+  find_later_time
+  suggested_times << @later_time
+  find_ealier_time
+  suggested_times << @earlier_time.strftime("%I:%M %p")
+  unless suggested_times.empty?
+    redirect_to restaurant_path(@restaurant), 
+    notice: "Sorry, your party cannot be seated at that time. 
+    We do have room at #{suggested_times.join(", or")}"
+  else
+    redirect_to restaurants_path, notice: "We are sorry, #{@restaurant.name} 
+    cannot accomodate your party on #{@reservation.day}."
+  end
+end
+
+  def find_later_time(new_time)
+    trial_time = new_time
+    while trial_time <= (closing_time - 1.hour)
+      check_availabilty(trial_time)
+      if check_availabilty
+        return @later_time = trial_time.strftime("%I:%M %p")
+      else
+        trial_time += 15.minutes
+      end
+    end
+  end
+
+  def find_earlier_time(new_time)
+    trial_time = new_time - 15.minutes
+    while trial_time >= (opening_time)
+      check_availabilty(trial_time)
+      if check_availabilty
+        return @earlier_time = trial_time.strftime("%I:%M %p")
+      else
+        trial_time += 15.minutes
+      end
+    end
+  end 
+
+
+  def find_next_quarter_hour(old_time)
+    #increases reservation time to the next higher quarter hour
+    old_minutes = old_time.min
+    reset_time = old_time - old_minutes.minutes
+    if old_minutes > 15
+      new_minutes = 15
+    elsif old_minutes > 30
+      new_minutes = 30
+    elsif old_minutes > 45
+      new_minutes = 45
+    else 
+      new_minutes = 60
+    end
+    
+    new_time = reset_time + new_minutes.minutes
+    return new_time
+  end
+
+
 
 end
