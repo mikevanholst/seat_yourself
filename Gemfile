@@ -44,6 +44,13 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+group :assets do
+  gem 'twitter-bootstrap-rails'
+  gem 'therubyracer', platforms: :ruby
+  gem 'less-rails'
+end
+
+
 # don't for get rails generate rspec:install
 group :development, :test do 
   gem "rspec"
